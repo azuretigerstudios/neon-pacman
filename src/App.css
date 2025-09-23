@@ -1,0 +1,110 @@
+body {
+  margin: 0;
+  font-family: "Press Start 2P", cursive, sans-serif;
+  background: linear-gradient(135deg, #0ff 0%, #00f 50%, #0af 100%);
+  background-size: 300% 300%;
+  animation: neonFlow 8s ease infinite;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+@keyframes neonFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.title {
+  text-shadow: 0 0 8px #0ff, 0 0 16px #08f, 0 0 24px #0af;
+}
+
+.score {
+  margin: 10px;
+  font-size: 18px;
+  text-shadow: 0 0 8px #0ff;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(15, 40px);
+  grid-template-rows: repeat(15, 40px);
+  gap: 3px;
+  margin-top: 20px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #0ff, 0 0 30px #08f;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.wall {
+  width: 100%;
+  height: 100%;
+  background: #111;
+  border: 2px solid #0ff;
+  box-shadow: 0 0 8px #0ff, 0 0 16px #08f inset;
+  border-radius: 6px;
+}
+
+.pellet {
+  width: 10px;
+  height: 10px;
+  background: #0ff;
+  border-radius: 50%;
+  margin: auto;
+  margin-top: 15px;
+  box-shadow: 0 0 6px #0ff, 0 0 12px #0ff;
+  transition: transform 0.2s ease;
+}
+
+.pellet.eaten {
+  transform: scale(0);
+  opacity: 0;
+}
+
+.pacman {
+  width: 30px;
+  height: 30px;
+  background: yellow;
+  border-radius: 50%;
+  margin: auto;
+  margin-top: 5px;
+  box-shadow:
+    0 0 10px #ffff00,
+    0 0 20px #ffff33,
+    0 0 30px #ffff66,
+    0 0 40px #ffff99;
+  animation: pacman-glow 1s infinite alternate;
+}
+
+@keyframes pacman-glow {
+  0% {
+    box-shadow:
+      0 0 10px #ffff00,
+      0 0 20px #ffff33,
+      0 0 30px #ffff66,
+      0 0 40px #ffff99;
+  }
+  100% {
+    box-shadow:
+      0 0 20px #ffff00,
+      0 0 40px #ffff33,
+      0 0 60px #ffff66,
+      0 0 80px #ffff99;
+  }
+}
