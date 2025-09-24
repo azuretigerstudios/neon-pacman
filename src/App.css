@@ -1,3 +1,4 @@
+/* --- Basic layout & neon background --- */
 body {
   margin: 0;
   font-family: "Press Start 2P", cursive, sans-serif;
@@ -21,26 +22,51 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
 }
 
 .title {
+  font-size: 18px;
   text-shadow: 0 0 8px #0ff, 0 0 16px #08f, 0 0 24px #0af;
 }
 
-.score {
-  margin: 10px;
-  font-size: 18px;
+.hud {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.score, .lives {
+  font-size: 12px;
   text-shadow: 0 0 8px #0ff;
 }
 
+.gameover {
+  color: #ff3366;
+  text-shadow: 0 0 10px #ff3366, 0 0 20px #ff6699;
+  font-weight: bold;
+}
+
+.controls { margin-top: 8px; }
+.btn {
+  background: rgba(255,255,255,0.06);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+/* --- board & grid --- */
 .board {
   display: grid;
   grid-template-columns: repeat(15, 40px);
   grid-template-rows: repeat(15, 40px);
   gap: 3px;
-  margin-top: 20px;
-  background: rgba(0, 0, 0, 0.4);
+  margin-top: 6px;
+  background: rgba(0, 0, 0, 0.45);
   padding: 10px;
   border-radius: 12px;
   box-shadow: 0 0 20px #0ff, 0 0 30px #08f;
@@ -50,6 +76,9 @@ body {
   width: 40px;
   height: 40px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .wall {
@@ -57,8 +86,9 @@ body {
   height: 100%;
   background: #111;
   border: 2px solid #0ff;
-  box-shadow: 0 0 8px #0ff, 0 0 16px #08f inset;
+  box-shadow: 0 0 8px #0ff inset, 0 0 20px rgba(0,255,255,0.05);
   border-radius: 6px;
+  z-index: 1;
 }
 
 .pellet {
@@ -66,45 +96,74 @@ body {
   height: 10px;
   background: #0ff;
   border-radius: 50%;
-  margin: auto;
-  margin-top: 15px;
   box-shadow: 0 0 6px #0ff, 0 0 12px #0ff;
-  transition: transform 0.2s ease;
+  z-index: 2;
 }
 
-.pellet.eaten {
-  transform: scale(0);
-  opacity: 0;
-}
-
+/* Pac-Man: glowing, simple scale animation (safe for grid) */
 .pacman {
   width: 30px;
   height: 30px;
   background: yellow;
   border-radius: 50%;
-  margin: auto;
-  margin-top: 5px;
   box-shadow:
     0 0 10px #ffff00,
     0 0 20px #ffff33,
-    0 0 30px #ffff66,
-    0 0 40px #ffff99;
-  animation: pacman-glow 1s infinite alternate;
+    0 0 30px #ffff66;
+  z-index: 5;
+  animation: pacman-glow 1s infinite alternate, pacman-pulse 0.4s infinite ease-in-out;
 }
 
 @keyframes pacman-glow {
-  0% {
-    box-shadow:
-      0 0 10px #ffff00,
-      0 0 20px #ffff33,
-      0 0 30px #ffff66,
-      0 0 40px #ffff99;
+  from {
+    box-shadow: 0 0 10px #ffff00, 0 0 20px #ffff33, 0 0 30px #ffff66;
   }
-  100% {
-    box-shadow:
-      0 0 20px #ffff00,
-      0 0 40px #ffff33,
-      0 0 60px #ffff66,
-      0 0 80px #ffff99;
+  to {
+    box-shadow: 0 0 18px #ffff00, 0 0 36px #ffff33, 0 0 54px #ffff66;
   }
+}
+
+@keyframes pacman-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+/* Ghosts */
+.ghost {
+  width: 30px;
+  height: 28px;
+  border-radius: 14px 14px 6px 6px;
+  margin-top: 6px;
+  position: relative;
+  z-index: 4;
+  box-shadow: 0 0 10px currentColor, 0 0 18px currentColor;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: ghost-bob 0.8s infinite ease-in-out;
+}
+
+/* little base to mimic the ghost "feet" */
+.ghost::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 4px;
+  right: 4px;
+  height: 8px;
+  background: inherit;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 0 6px currentColor;
+}
+
+@keyframes ghost-bob {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+/* small responsive tweak */
+@media (max-width: 520px) {
+  .board { transform: scale(0.8); }
 }
