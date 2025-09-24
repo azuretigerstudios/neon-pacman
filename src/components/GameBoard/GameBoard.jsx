@@ -135,7 +135,7 @@ function GameBoard({ setScore }) {
       {gameOver && (
         <div className="game-over-card">
           <h2>💀 GAME OVER 💀</h2>
-          <p>Press F5 to restart</p>
+          <p>Press the restart button</p>
         </div>
       )}
     </div>
